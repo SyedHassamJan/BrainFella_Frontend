@@ -5,7 +5,6 @@ export const journalSchema = z.object({
   content: z
     .string()
     .min(1, 'Please write something')
-    .min(10, 'Entry must be at least 10 characters')
     .max(5000, 'Entry too long'),
 })
 

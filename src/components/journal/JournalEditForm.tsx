@@ -15,7 +15,7 @@ const editSchema = z.object({
   title: z.string().max(100, 'Title too long').optional().or(z.literal('')),
   content: z
     .string()
-    .min(10, 'Entry must be at least 10 characters')
+    .min(1, 'Please write something')
     .max(5000, 'Entry too long'),
 })
 
