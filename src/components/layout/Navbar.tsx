@@ -4,9 +4,10 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter, usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { BookOpen, LogOut, User, LayoutDashboard, Settings } from 'lucide-react'
+import { BookOpen, Bell, LogOut, User, LayoutDashboard, Settings } from 'lucide-react'
 import { useAuthStore } from '@/store/authStore'
 import { useAuth } from '@/hooks/useAuth'
+import { useUnreadNotificationCount } from '@/hooks/useNotifications'
 import api from '@/lib/api'
 import { ROUTES } from '@/constants/routes'
 import { queryClient } from '@/lib/queryClient'
@@ -17,6 +18,7 @@ export function Navbar() {
   const router = useRouter()
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
+  const unread = useUnreadNotificationCount(isAuthenticated)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -89,9 +91,29 @@ export function Navbar() {
             <div style={{ width: 120, height: 36 }} aria-hidden="true" />
           ) : isAuthenticated && user ? (
             <>
-              {/* Journal */}
-              <NavLink href={ROUTES.JOURNAL} icon={<BookOpen size={15} />} onHero={onHero}>
-                Journal
+              {/* Journal (patients only: therapists have no journal of their own) */}
+              {user.role === 'PATIENT' ? (
+                <NavLink href={ROUTES.JOURNAL} icon={<BookOpen size={15} />} onHero={onHero}>
+                  Journal
+                </NavLink>
+              ) : null}
+
+              {/* Notifications (everyone; therapists see patient crisis alerts here) */}
+              <NavLink href={ROUTES.NOTIFICATIONS} icon={<Bell size={15} />} onHero={onHero}>
+                Notifications
+                {unread > 0 ? (
+                  <span
+                    aria-label={`${unread} unread`}
+                    style={{
+                      marginLeft: 4, minWidth: 18, height: 18, padding: '0 5px',
+                      borderRadius: 999, background: '#f59e0b', color: '#fff',
+                      fontSize: '0.7rem', fontWeight: 800, lineHeight: '18px',
+                      textAlign: 'center', display: 'inline-block',
+                    }}
+                  >
+                    {unread > 99 ? '99+' : unread}
+                  </span>
+                ) : null}
               </NavLink>
 
               {/* Settings */}

@@ -7,4 +7,5 @@ export const ROUTES = {
   JOURNAL_DETAIL: (id: string) => `/journal/${id}`,
   JOURNAL_EDIT: (id: string) => `/journal/${id}/edit`,
   SETTINGS: '/settings',
+  NOTIFICATIONS: '/notifications',
 } as const

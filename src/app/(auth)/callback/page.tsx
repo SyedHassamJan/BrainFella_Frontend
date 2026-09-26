@@ -37,7 +37,9 @@ function OAuthCallbackContent() {
     })
 
     // Redirect based on role
-    if (role === 'THERAPIST' || role === 'ADMIN') {
+    if (role === 'THERAPIST') {
+      router.replace(ROUTES.NOTIFICATIONS)
+    } else if (role === 'ADMIN') {
       router.replace(ROUTES.HOME)
     } else {
       router.replace(ROUTES.JOURNAL)

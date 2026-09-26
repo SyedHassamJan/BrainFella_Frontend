@@ -88,3 +88,17 @@ export interface ApiError {
   timestamp: string
   path: string
 }
+
+// Notifications (GET /notification/my)
+export interface AppNotification {
+  id: string
+  userId: string
+  title: string
+  message: string
+  /** e.g. CRISIS_DETECTED (to a patient), CRISIS_ALERT (to a linked therapist), APPOINTMENT_*, REPORT_SENT */
+  type: string
+  isRead: boolean
+  /** CRISIS_ALERT only: the patient the alert is about */
+  relatedUserId?: string | null
+  createdAt: string
+}

@@ -35,7 +35,7 @@ import type { AxiosError } from 'axios'
       // Role-based redirect
       const redirectMap: Record<string, string> = {
         PATIENT: ROUTES.JOURNAL,
-        THERAPIST: ROUTES.JOURNAL,
+        THERAPIST: ROUTES.NOTIFICATIONS,
         ADMIN: ROUTES.HOME,
         GUARDIAN: ROUTES.HOME,
       }
