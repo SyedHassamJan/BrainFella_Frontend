@@ -233,7 +233,10 @@ export function SignupForm() {
             I agree to the{' '}
             <span style={{ color: 'var(--color-blue)', fontWeight: 700 }}>Terms of Service</span>
             {' '}and{' '}
-            <span style={{ color: 'var(--color-blue)', fontWeight: 700 }}>Privacy Policy</span>
+            <span style={{ color: 'var(--color-blue)', fontWeight: 700 }}>Privacy Policy</span>.
+            I understand BrainHealth is a support tool, not a replacement for professional care, and that
+            if my messages suggest I may be in danger, a therapist I am working with may be told so they
+            can check in.
           </label>
         </div>
         {errors.acceptTerms && <p style={errorStyle}>{errors.acceptTerms.message}</p>}
