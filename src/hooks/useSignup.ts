@@ -8,7 +8,7 @@ import { ROUTES } from '@/constants/routes'
 
 export function useSignup() {
   const router = useRouter()
-  const { setUser, setAccessToken } = useAuthStore()
+  const { setUser, setAccessToken, setRefreshToken } = useAuthStore()
 
   return useMutation({
     mutationFn: async (values: SignupFormValues): Promise<AuthResponse> => {
@@ -17,6 +17,7 @@ export function useSignup() {
         name: values.name,
         email: values.email,
         password: values.password,
+        role: values.role,
       })
 
       // Step 2: Sign in to get tokens
@@ -28,6 +29,7 @@ export function useSignup() {
     },
     onSuccess: (data) => {
       setAccessToken(data.accessToken)
+      setRefreshToken(data.refreshToken)
       setUser({
         id: data.id,
         name: data.name,
@@ -36,7 +38,8 @@ export function useSignup() {
         isActive: true,
         createdAt: new Date().toISOString(),
       })
-      router.push(ROUTES.JOURNAL)
+      // A new therapist goes straight to uploading their CV for review.
+      router.push(data.role === 'THERAPIST' ? ROUTES.THERAPIST_APPLICATION : ROUTES.JOURNAL)
     },
   })
 }
