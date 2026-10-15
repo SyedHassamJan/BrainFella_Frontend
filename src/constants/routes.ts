@@ -8,4 +8,8 @@ export const ROUTES = {
   JOURNAL_EDIT: (id: string) => `/journal/${id}/edit`,
   SETTINGS: '/settings',
   NOTIFICATIONS: '/notifications',
+  THERAPIST_APPLICATION: '/therapist/application',
+  THERAPIST_PATIENTS: '/therapist/patients',
+  ADMIN_THERAPISTS: '/admin/therapists',
+  ADMIN_LOGIN: '/admin/login',
 } as const

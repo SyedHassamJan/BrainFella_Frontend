@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useAuthStore } from '@/store/authStore'
 import { Spinner } from '@/components/ui/Spinner'
 import { ROUTES } from '@/constants/routes'
@@ -9,25 +9,29 @@ import { ROUTES } from '@/constants/routes'
 interface AuthGuardProps {
   children: React.ReactNode
   allowedRoles?: string[]
+  /** Where signed-out visitors go. Defaults to the admin login under /admin, else the normal login. */
+  loginRoute?: string
 }
 
-export function AuthGuard({ children, allowedRoles }: AuthGuardProps) {
+export function AuthGuard({ children, allowedRoles, loginRoute }: AuthGuardProps) {
   const { user, isAuthenticated, isLoading, _hasHydrated } = useAuthStore()
   const router = useRouter()
+  const pathname = usePathname()
+  const login = loginRoute ?? (pathname?.startsWith('/admin') ? ROUTES.ADMIN_LOGIN : ROUTES.LOGIN)
 
   useEffect(() => {
     // Wait for both: Zustand hydration from localStorage AND any loading state
     if (!_hasHydrated || isLoading) return
 
     if (!isAuthenticated) {
-      router.replace(ROUTES.LOGIN)
+      router.replace(login)
       return
     }
 
     if (allowedRoles && user && !allowedRoles.includes(user.role)) {
       router.replace(ROUTES.HOME)
     }
-  }, [isAuthenticated, isLoading, _hasHydrated, user, allowedRoles, router])
+  }, [isAuthenticated, isLoading, _hasHydrated, user, allowedRoles, login, router])
 
   // Show spinner until hydration is complete
   if (!_hasHydrated || isLoading) {
