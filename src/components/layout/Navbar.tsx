@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter, usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { BookOpen, Bell, LogOut, User, LayoutDashboard, Settings } from 'lucide-react'
+import { BookOpen, Bell, LogOut, User, LayoutDashboard, Settings, Stethoscope, ShieldCheck, Users } from 'lucide-react'
 import { useAuthStore } from '@/store/authStore'
 import { useAuth } from '@/hooks/useAuth'
 import { useUnreadNotificationCount } from '@/hooks/useNotifications'
@@ -95,6 +95,25 @@ export function Navbar() {
               {user.role === 'PATIENT' ? (
                 <NavLink href={ROUTES.JOURNAL} icon={<BookOpen size={15} />} onHero={onHero}>
                   Journal
+                </NavLink>
+              ) : null}
+
+              {/* Therapist: patients who are linked or contacted them, and their own profile / CV application */}
+              {user.role === 'THERAPIST' ? (
+                <>
+                  <NavLink href={ROUTES.THERAPIST_PATIENTS} icon={<Users size={15} />} onHero={onHero}>
+                    Patients
+                  </NavLink>
+                  <NavLink href={ROUTES.THERAPIST_APPLICATION} icon={<Stethoscope size={15} />} onHero={onHero}>
+                    My profile
+                  </NavLink>
+                </>
+              ) : null}
+
+              {/* Admin: review therapist applications */}
+              {user.role === 'ADMIN' ? (
+                <NavLink href={ROUTES.ADMIN_THERAPISTS} icon={<ShieldCheck size={15} />} onHero={onHero}>
+                  Therapists
                 </NavLink>
               ) : null}
 

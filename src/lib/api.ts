@@ -55,7 +55,7 @@ api.interceptors.response.use(
 
     if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
       // Don't intercept refresh or signin endpoints
-      if (originalRequest.url === '/auth/refresh' || originalRequest.url === '/auth/signin') {
+      if (originalRequest.url === '/auth/refresh' || originalRequest.url === '/auth/signin' || originalRequest.url === '/auth/admin/signin') {
         if (typeof window !== 'undefined') {
           localStorage.removeItem('brainhealth-auth')
           window.location.href = '/login'

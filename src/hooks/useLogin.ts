@@ -36,7 +36,7 @@ import type { AxiosError } from 'axios'
       const redirectMap: Record<string, string> = {
         PATIENT: ROUTES.JOURNAL,
         THERAPIST: ROUTES.NOTIFICATIONS,
-        ADMIN: ROUTES.HOME,
+        ADMIN: ROUTES.ADMIN_THERAPISTS, // not reachable: the API sends admins to the admin login page
         GUARDIAN: ROUTES.HOME,
       }
       router.push(redirectMap[data.role] ?? ROUTES.HOME)
